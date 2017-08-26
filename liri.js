@@ -1,4 +1,5 @@
 var client = require("./keys.js")
+var client2 = require("./spoty")
 var inquirer = require("inquirer");
 var request = require('request');
 var Twitter = require('twitter');
@@ -18,7 +19,7 @@ var $ = require("jquery");
 /*for(i in client){
 	console.log(i, client);
 }
-console.log(keysNeed.twitterKeys.consumer_key)*/
+console.log(client.twitterKeys.consumer_key)*/
 
 //----------------Making it so liri.js can take in a command--------------------
 inquirer
@@ -68,12 +69,12 @@ inquirer
 function myChirps(){
 	console.log(client)
 	client = new Twitter
-	/*({
-	consumer_key: '4afbfNrott5XQE3wDHlegzMOn',
-	consumer_secret: 'J20DKXe0jnJoT4eJd6FD8f35lXZwVdrXZnNRz0sxU3aOnlY4oG',
-	access_token_key: '897978941134131201-uG27SYoJHVKb5ZsHXaa1X3vnB3dVw3t',
-	access_token_secret: 'op1aLy0c5La6DcZkmsSw37mDaANVgm20ES704KDfOYZLH'
-	})*/
+	({
+	consumer_key: client.twitterKeys.consumer_key,
+	consumer_secret: client.twitterKeys.consumer_secret,
+	access_token_key: client.twitterKeys.access_token_key,
+	access_token_secret: client.twitterKeys.access_token_secret
+	})
 
 		client.get('favorites/list', {screen_name: "Jester2255"} ,function(error, tweets, response) {
 		if(error) {
@@ -82,6 +83,7 @@ function myChirps(){
 		console.log(tweets);  // The favorites. 
 		//console.log(response);  // Raw response object.
 
+		console.log("\nThe movie's title is: " + JSON.parse(data)._header);
 		} 
 		});
 
@@ -90,7 +92,7 @@ function myChirps(){
 function singToMe(){
 	// this should get a song name and display the artist/s, the song name, preview link and album
 	var songArg = []
-		var spotify = new Spotify({
+		var spotify = Spotify({
   id: "1cf1e01d57234cc2a24e9271ab625b37",
   secret: "a9dd3f455f9e4519b96794df3420b905"
 });
@@ -139,12 +141,12 @@ console.log("\nSomething is: " + JSON.stringify(data).total);
 
 spotify
   //.request('https://api.spotify.com/v1/search?q=' + songTitle + '&type=track&limit=2')
-  $.ajax({
+  /*$.ajax({
   	url:'https://api.spotify.com/v1/search?q=let+it+be&type=track&limit=1',
   	method: 'GET'
   }).done(function(response){
   		console.log("This is the Response: " + response)
-  })
+  })*/
   .request('https://api.spotify.com/v1/search?q=let+it+be&type=track&limit=1')
   .then(function(data) {
     console.log(data);
