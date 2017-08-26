@@ -1,5 +1,5 @@
 var client = require("./keys.js")
-var client2 = require("./spoty")
+var client2 = require("./spotyKeys")
 var inquirer = require("inquirer");
 var request = require('request');
 var Twitter = require('twitter');
@@ -27,7 +27,7 @@ inquirer
   		{
 	  		type: "list",
 	  		message: "Please Pick One",
-	  		choices:[ "my-tweets" ,"spotify-this-song","movie-this", "do-what-it-says"],
+	  		choices:[ "my-tweets" ,"spotify-this-song","movie-this", "do-what-I-say"],
 	  		name: "listChoice"	
   		},
   		{
@@ -54,7 +54,7 @@ inquirer
   		 		lightsCameraAction()
   		 		break;
 
-  		 		case "do-what-it-says":
+  		 		case "do-what-I-say":
   		 		doAsISay()
   		 		break;
 
@@ -92,33 +92,11 @@ function myChirps(){
 function singToMe(){
 	// this should get a song name and display the artist/s, the song name, preview link and album
 	var songArg = []
-		var spotify = Spotify({
-  id: "1cf1e01d57234cc2a24e9271ab625b37",
-  secret: "a9dd3f455f9e4519b96794df3420b905"
+	var spotify = new Spotify({
+  id: client2.spotifyKey.id,
+  secret: client2.spotifyKey.secret
 });
-		inquirer
-	  .prompt([
-	    // Here we create a basic text prompt.
-	    {
-	      type: "input",
-	      message: "What song would you like to learn about?",
-	      name: "movieName"
-	    },
-	    {
-	      type: "confirm",
-	      message: "Are you sure:",
-	      name: "confirm",
-	      default: true
-	    }
-	    ])
-	  .then(function(inquirerResponse) {
-  		 if (inquirerResponse.confirm) {
-		  		songArg.push(inquirerResponse.songName)
-		  		JSON.stringify(songArg)
-		  		//console.log(movieArg)
-		  		for (var i = 0; i < songArg.length; i++) {
-		    	songTitle = songArg[i]
-  		 	}
+		
  
 /*spotify.search({ type: 'track', query: 'let it be' }, function(err, data) {
   if (err) {
@@ -140,13 +118,6 @@ console.log("\nSomething is: " + JSON.stringify(data).total);
   });*/
 
 spotify
-  //.request('https://api.spotify.com/v1/search?q=' + songTitle + '&type=track&limit=2')
-  /*$.ajax({
-  	url:'https://api.spotify.com/v1/search?q=let+it+be&type=track&limit=1',
-  	method: 'GET'
-  }).done(function(response){
-  		console.log("This is the Response: " + response)
-  })*/
   .request('https://api.spotify.com/v1/search?q=let+it+be&type=track&limit=1')
   .then(function(data) {
     console.log(data);
@@ -157,10 +128,6 @@ spotify
     console.error('Error occurred: ' + err); 
   });
 
-  		}else{
-  			console.log("sorry try again")
-  		}
-  });
 }
 //-----------------------------------------------------------------------------------------------------------------
 function lightsCameraAction(){
@@ -215,5 +182,7 @@ function doAsISay(){
 	/*Using the fs Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
 	It should run spotify-this-song for "I Want it That Way," as follows the text in random.txt.
 	Feel free to change the text in that document to test out the feature for other commands.*/
-	console.log("Do it");
+	console.log("\nDo it!");
+	console.log("\n\tI can't do it my master hasn't had time to program me")
+	console.log("\n\tPlease don't beat me!!!!")
 };
