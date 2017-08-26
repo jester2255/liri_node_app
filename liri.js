@@ -65,9 +65,9 @@ inquirer
   		}
   });
 //--------------------------------------functions go here-----------------------------------------
-
+//======================================twitter function==========================================
 function myChirps(){
-	console.log(client)
+	
 	client = new Twitter
 	({
 	consumer_key: client.twitterKeys.consumer_key,
@@ -76,19 +76,19 @@ function myChirps(){
 	access_token_secret: client.twitterKeys.access_token_secret
 	})
 
-		client.get('favorites/list', {screen_name: "Jester2255"} ,function(error, tweets, response) {
+		client.get('favorites/list', {screen_name: "@Jester2255"} ,function(error, tweets, response) {
 		if(error) {
 			console.log(error)
 		}else{
 		console.log(tweets);  // The favorites. 
-		//console.log(response);  // Raw response object.
+		console.log(response);  // Raw response object.
 
-		console.log("\nThe movie's title is: " + JSON.parse(data)._header);
+		console.log("\nHeres the tweet! " + JSON.stringify(tweets).tweets);
 		} 
 		});
 
 }
-//------------------------------------------------------------------------------------------------------------------
+//=====================================spotify function================================================
 function singToMe(){
 	// this should get a song name and display the artist/s, the song name, preview link and album
 	var songArg = []
@@ -98,45 +98,56 @@ function singToMe(){
 });
 		
  
-/*spotify.search({ type: 'track', query: 'let it be' }, function(err, data) {
-  if (err) {
-    return console.log('Error occurred: ' + err);
-  }
- 
-console.log(data); 
-console.log("\nSomething is: " + JSON.stringify(data).total);
-});*/
-
-/*spotify
-  .search({ type: 'track', query: 'rocky racoon' })
-  .then(function(response) {
-    console.log(response);
-    console.log("\nSomething is: " + JSON.stringify(response).total);
-  })
-  .catch(function(err) {
-    console.log(err);
-  });*/
+inquirer
+	  .prompt([
+	    //prompting the user for a movieS
+	    {
+	      type: "input",
+	      message: "What song would you like to learn about?",
+	      name: "songName"
+	    },
+	    {
+	      type: "confirm",
+	      message: "Are you sure:",
+	      name: "confirm",
+	      default: true
+	    }
+	    ])
+	  .then(function(inquirerResponse) {
+  		 if (inquirerResponse.confirm) {
+		  		songArg.push(inquirerResponse.songName)
+		  		JSON.stringify(songArg)
+		  		//console.log(songArg)
+		  		for (var i = 0; i < songArg.length; i++) {
+		    	var songTitle = songArg[i]
+		    	//console.log(songTitle)
+  		 	}
 
 spotify
-  .request('https://api.spotify.com/v1/search?q=let+it+be&type=track&limit=1')
+  .request('https://api.spotify.com/v1/search?q=' + songTitle+ '&type=track&limit=1')
   .then(function(data) {
     console.log(data);
     //console.log(JSON.stringify(data)) 
-    console.log("\nSomething is: " + JSON.stringify(data).tracks);
+
+    console.log("\nSomething is: " + JSON.stringify(data).items);
   })
   	.catch(function(err) {
     console.error('Error occurred: ' + err); 
-  });
+  })
 
+	}else{
+		console.log("sorry try again")
+	}
+	})
 }
-//-----------------------------------------------------------------------------------------------------------------
+//============================================OMDB Function==================================================
 function lightsCameraAction(){
 	var movieTitle = "mr nobody"
 	var movieArg = []
 		
 	inquirer
 	  .prompt([
-	    // Here we create a basic text prompt.
+	    //prompting the user for a movieS
 	    {
 	      type: "input",
 	      message: "What movie would you like to learn about?",
